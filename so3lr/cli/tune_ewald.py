@@ -340,7 +340,7 @@ class TuningTimings:
 
         self.nbrs_lr = nbrs_lr
         self.nbrs_lr_distances = nbrs_lr_distances
-        self.rnd_key = jax.random.key(RND_SEED)
+        self.rnd_key = jax.random.PRNGKey(RND_SEED)
 
         # self.atoms = Atoms(
         #     positions=positions,

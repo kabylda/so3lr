@@ -13,26 +13,17 @@ SO3LR - pronounced *Solar* - is a pretrained machine-learned force field for (bi
 Try SO3LR without any local installation using our [Colab notebook](https://colab.research.google.com/github/general-molecular-simulations/so3lr/blob/main/examples/so3lr_colab_example.ipynb)!
 
 ## Installation
-SO3LR can be either used with CPU or with GPU. If you want to use SO3LR on GPU, you have to install the 
-corresponding JAX installation via 
-```shell script
-# SO3LR on GPU
-pip install --upgrade pip
-pip install "jax[cuda12]==0.5.3"
-```
-> **Note**: SO3LR runs significantly faster on GPU, making it the preferred choice for large-scale simulations. More details about JAX installation can be found [here](https://jax.readthedocs.io/en/latest/installation.html). Also, we recommend installing with [uv](https://docs.astral.sh/uv/), it's magical.
 
-If you want to use SO3LR on CPU, e.g. for testing on your local machine which does not have a GPU, you can do
+> **Note**: This is a fork of [SO3LR](https://github.com/general-molecular-simulations/so3lr) compatible with JAX 0.4.35. See [issue #31](https://github.com/general-molecular-simulations/so3lr/issues/31) for context.
+
+First install JAX 0.4.35:
 ```shell script
-# SO3LR on CPU
-pip install --upgrade pip
-pip install jax==0.5.3
+pip install jax==0.4.35 jaxlib==0.4.35
 ```
-Next clone the repository and install by doing 
+
+Then install this fork:
 ```shell script
-git clone https://github.com/general-molecular-simulations/so3lr.git
-cd so3lr
-pip install .
+pip install "so3lr @ git+https://github.com/kabylda/so3lr-jax0.4.35.git@so3lr-pr31"
 ```
 
 ## Command Line Interface (CLI)

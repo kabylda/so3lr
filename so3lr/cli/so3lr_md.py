@@ -353,7 +353,7 @@ def write_to_hdf5(
                     {o: jnp.stack(obs_dict[o], axis=0)},
                 )
 
-        step_data = jax.tree.map(
+        step_data = jax.tree_util.tree_map(
             lambda u: np.asarray(u), step_data
             )
         
@@ -588,7 +588,7 @@ def load_model(
     # Load from ckpt directory path
     potential = MLFFPotentialSparse.create_from_ckpt_dir(
         ckpt_dir=model_dir,
-        from_file=False,
+        from_file=True,
         long_range_kwargs=dict(
             cutoff_lr=lr_cutoff,
             dispersion_energy_cutoff_lr_damping=dispersion_damping,
@@ -731,11 +731,9 @@ def to_jax_md_custom(
     neighbor_fn = partition.neighbor_list(
         displacement_or_metric,
         box,
-        potential.cutoff,  # load the cutoff of the model from the MLFFPotential
-        dr_threshold,
-        capacity_multiplier,
-        buffer_size_multiplier_sr,  # as buffer_size_multiplier
-        minimum_cell_size_multiplier_sr,
+        r_cutoff=potential.cutoff,
+        dr_threshold=dr_threshold,
+        capacity_multiplier=capacity_multiplier,
         fractional_coordinates=fractional_coordinates,
         # only sparse is supported in mlff
         format=partition.NeighborListFormat(1),
@@ -746,11 +744,9 @@ def to_jax_md_custom(
     neighbor_fn_lr = partition.neighbor_list(
         displacement_or_metric,
         box,
-        potential.long_range_cutoff,
-        dr_threshold,
-        capacity_multiplier,
-        buffer_size_multiplier_lr,  # as buffer_size_multiplier
-        minimum_cell_size_multiplier_lr,
+        r_cutoff=potential.long_range_cutoff,
+        dr_threshold=dr_threshold,
+        capacity_multiplier=capacity_multiplier,
         fractional_coordinates=fractional_coordinates,
         # long-range modules can handle OrderedSparse.
         format=partition.NeighborListFormat(2),
